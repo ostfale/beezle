@@ -1,5 +1,5 @@
 import groovy.util.logging.Slf4j
-import ui.BeezleUI
+import de.ostfale.beezle.boundary.BeezleUI
 
 @Slf4j
 class BeezleMain {

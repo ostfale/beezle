@@ -1,4 +1,4 @@
-package ui
+package de.ostfale.beezle.boundary
 
 import groovyx.javafx.SceneGraphBuilder
 import javafx.scene.Scene
