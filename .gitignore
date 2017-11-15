@@ -1,0 +1,6 @@
+last-build.bin
+.gradle/*
+.name
+.idea/*
+out/*
+build/*

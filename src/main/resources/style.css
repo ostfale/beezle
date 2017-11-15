@@ -1,0 +1,22 @@
+.root {
+    -fx-font-size: 9pt;
+    -fx-font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    -fx-base: rgb(17, 138, 202);
+    -fx-background: rgb(65, 149, 202);
+}
+
+.form {
+    -fx-pref-width: 1600px;
+    -fx-pref-height: 900px;
+    -fx-padding: 0;
+    -fx-alignment: top-center;
+}
+
+#exitBtn {
+    -fx-background-color: brown;
+}
+
+.dialog-pane {
+    -fx-pref-width: 800px;
+    -fx-background-color: rgb(65, 149, 202);
+}
