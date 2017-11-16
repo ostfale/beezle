@@ -8,4 +8,7 @@ class AppConfig {
     final static String APP_NAME = 'Beezle'
     final static String APP_VERSION = '0.1'
     final static String PROPERTY_FILE_NAME = "beezle.properties"
+
+
+
 }

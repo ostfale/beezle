@@ -10,5 +10,7 @@ class ResourceService {
 
     // font awesome icon aliases
     static final String ICON_EXIT = '\uf011'
+    static final String ICON_DOWNLOAD = '\uf019'
+    static final String ICON_FOLDER = '\uf07b'
     static final String ICON_GITLAB = '\uf296'
 }
