@@ -1,6 +1,6 @@
 package de.ostfale.beezle.boundary.repo
 
-import de.ostfale.beezle.control.repo.RepoTreeService
+import de.ostfale.beezle.control.repo.RepoService
 import de.ostfale.beezle.entity.repo.TreeItemWithId
 import groovy.util.logging.Slf4j
 import javafx.scene.control.TreeView
@@ -15,8 +15,8 @@ class RepoTree {
     private static TreeItemWithId<String> createTreeNodes() {
         def rootIcon = new ImageView(new Image("help_16.png"))
         //      File treeCfg = new AppConfig().getDatabaseTreeFile()
-        log.trace("Load tree configuration file from ${treeCfg.getAbsolutePath()}")
-        def nodeList = new RepoTreeService().getNodeList("to be fixed...")
+    //    log.trace("Load tree configuration file from ${treeCfg.getAbsolutePath()}")
+        def nodeList = new RepoService().getNodeList("to be fixed...")
         TreeItemWithId<String> root = new TreeItemWithId('GlobeData')
         root.setExpanded(true)
         root.setGraphic(rootIcon)

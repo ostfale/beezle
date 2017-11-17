@@ -10,35 +10,31 @@ import java.nio.file.Paths
 @Slf4j
 class ApplService {
 
-    static final String ENV_USER_PROFILE = "USERPROFILE"
+    static final String USER_PROFILE = System.getenv("USERPROFILE")
 
-    Optional<File> getProperytFile() {
+    static Optional<File> getPropertyFile(String baseDirPath = USER_PROFILE) {
         log.trace("Search for application property file...")
-        Optional<String> baseDirPath = getUserDirPath()
-        if (baseDirPath.isPresent()) {
-            final String propFileString = baseDirPath.get() + AppConfig.APP_NAME + File.separator + AppConfig.PROPERTY_FILE_NAME
-            Path propFilePath = Paths.get(propFileString)
-            if (Files.exists(propFilePath)) {
-                log.trace("User property file found : ${propFilePath.toString()}")
-                return Optional.of(propFilePath.toFile())
-            }
 
+        if (baseDirPath) {
+            String propFilePath = baseDirPath + File.separator + AppConfig.APP_NAME + File.separator + AppConfig.PROPERTY_FILE_NAME
+            Path propFile = Paths.get(propFilePath)
+            if (Files.exists(propFile)) {
+                log.trace("User property file found : ${propFilePath.toString()}")
+                return Optional.of(propFile.toFile())
+            }
+            File newPropFile = createPropertyFile(propFilePath)
+            return Optional.of(newPropFile)
         }
+
         log.error("User directory could not be found...")
         return Optional.empty()
     }
 
-    private File createPropertyFile(String path = AppConfig.APP_NAME + File.separator + AppConfig.PROPERTY_FILE_NAME) {
-
-        String targetPath = System.getenv(ENV_USER_PROFILE) + File.separator + path
+    private static File createPropertyFile(String targetPath) {
+        log.trace("Create new property file: $targetPath")
         File propertyFile = new File(targetPath)
-        propertyFile << 'User defined properties\n'
+        propertyFile.getParentFile().mkdirs()
+        propertyFile << '# user defined properties\n'
         return propertyFile
-    }
-
-    private Optional<String> getUserDirPath() {
-        def result = System.getenv(ENV_USER_PROFILE)
-        log.trace("User profile  directory found: ${result}")
-        return Optional.ofNullable(result)
     }
 }
