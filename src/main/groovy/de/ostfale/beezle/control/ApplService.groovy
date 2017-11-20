@@ -10,9 +10,7 @@ import java.nio.file.Paths
 @Slf4j
 class ApplService {
 
-    static final String USER_PROFILE = System.getenv("USERPROFILE")
-
-    static Optional<File> getPropertyFile(String baseDirPath = USER_PROFILE) {
+    static Optional<File> getPropertyFile(String baseDirPath = AppConfig.USER_PROFILE) {
         log.trace("Search for application property file...")
 
         if (baseDirPath) {

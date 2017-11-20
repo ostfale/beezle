@@ -20,3 +20,7 @@
     -fx-pref-width: 800px;
     -fx-background-color: rgb(65, 149, 202);
 }
+
+.tree {
+    -fx-pref-width: 350px;
+}

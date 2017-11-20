@@ -1,6 +1,7 @@
 package de.ostfale.beezle.boundary
 
 import de.ostfale.beezle.AppConfig
+import de.ostfale.beezle.boundary.repo.RepoPerspective
 import de.ostfale.beezle.control.ResourceService
 import groovy.util.logging.Slf4j
 import groovyx.javafx.GroovyFX
@@ -18,10 +19,13 @@ class BeezleUI {
 
     private DefaultStatusBar statusBar
 
+    // perspectives
+    RepoPerspective repoPerspective
+
     void startUI() {
         GroovyFX.start { app ->
             SceneGraphBuilder builder = delegate as SceneGraphBuilder
-            initPerspective()
+            initPerspective(builder)
             layoutFrame(builder)
             BeezleStyle.style(builder)
             builder.primaryStage.show()
@@ -39,6 +43,10 @@ class BeezleUI {
                             node(createToolBar())
                         }
                     }
+                    left() {
+                        repoPerspective.getLeftSideView()
+                    }
+
                     right(margin: 1) {
                         toolBar(orientation: VERTICAL) {
                             new ResourceService().with {
@@ -93,5 +101,6 @@ class BeezleUI {
 
     private initPerspective(SceneGraphBuilder sceneGraphBuilder1) {
         this.statusBar = new DefaultStatusBar()
+        this.repoPerspective = new RepoPerspective(sceneGraphBuilder1)
     }
 }

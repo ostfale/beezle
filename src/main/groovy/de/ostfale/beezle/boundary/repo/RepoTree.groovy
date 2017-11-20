@@ -12,12 +12,19 @@ class RepoTree {
 
     static TreeView<String> treeView
 
+    static TreeView createTreeView() {
+        treeView = new TreeView<>(createTreeNodes())
+        treeView.styleClass << 'tree'
+        treeView.setShowRoot(true)
+        treeView.setEditable(false)
+        return treeView
+    }
+
     private static TreeItemWithId<String> createTreeNodes() {
-        def rootIcon = new ImageView(new Image("help_16.png"))
-        //      File treeCfg = new AppConfig().getDatabaseTreeFile()
-    //    log.trace("Load tree configuration file from ${treeCfg.getAbsolutePath()}")
+        def rootIcon = new ImageView(new Image("images/help_16.png"))
+        log.trace("Load repo tree configuration...")
         def nodeList = new RepoService().getNodeList("to be fixed...")
-        TreeItemWithId<String> root = new TreeItemWithId('GlobeData')
+        TreeItemWithId<String> root = new TreeItemWithId('Repositories')
         root.setExpanded(true)
         root.setGraphic(rootIcon)
         root.children.addAll(nodeList)
