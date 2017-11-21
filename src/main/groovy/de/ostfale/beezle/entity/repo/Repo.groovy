@@ -3,9 +3,10 @@ package de.ostfale.beezle.entity.repo
 class Repo {
 
     final String repoName
-    RepoStatus repoStatus = RepoStatus.NEW
+    RepoStatus repoStatus = RepoStatus.REMOTE
 
-    Repo(String repoName) {
+    Repo(String repoName, RepoStatus status) {
         this.repoName = repoName
+        this.repoStatus = status
     }
 }

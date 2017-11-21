@@ -6,8 +6,13 @@ import de.ostfale.beezle.control.ResourceService
 import groovy.util.logging.Slf4j
 import groovyx.javafx.GroovyFX
 import groovyx.javafx.SceneGraphBuilder
+import javafx.geometry.Insets
+import javafx.geometry.Orientation
+import javafx.geometry.Pos
 import javafx.scene.control.*
 import javafx.scene.layout.BorderPane
+import javafx.scene.layout.HBox
+import javafx.scene.layout.Priority
 import javafx.stage.Stage
 
 @Slf4j
@@ -63,7 +68,22 @@ class BeezleUI {
     }
 
     def createToolBar() {
+        final int spacing = 5
         def exitButton = new Button(font: ResourceService.FA14, text: ResourceService.ICON_EXIT, onAction: exitAction, id: 'exitBtn', tooltip: new Tooltip('Exit application'))
+        def aboutButton = new Button(font: ResourceService.FA14, text: ResourceService.ICON_INFO, onAction: aboutAction, id: 'aboutBtn', tooltip: new Tooltip('Show Info'))
+
+        final HBox leftSection = new HBox(exitButton, new Separator(orientation: Orientation.VERTICAL))
+        final HBox rightSection = new HBox(aboutButton, new Separator(orientation: Orientation.VERTICAL))
+        leftSection.setAlignment(Pos.CENTER_LEFT)
+        leftSection.setSpacing(spacing)
+        rightSection.setAlignment(Pos.CENTER_RIGHT)
+        rightSection.setSpacing(spacing)
+        HBox.setHgrow(leftSection, Priority.ALWAYS)
+        HBox.setHgrow(rightSection, Priority.ALWAYS)
+        def tb = new ToolBar(orientation: Orientation.HORIZONTAL)
+        tb.setPadding(new Insets(5, spacing, 5, spacing))
+        tb.getItems().addAll(leftSection, rightSection)
+        return tb
     }
 
     def createMenuBar() {
