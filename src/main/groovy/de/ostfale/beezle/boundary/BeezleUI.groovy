@@ -81,7 +81,7 @@ class BeezleUI {
         HBox.setHgrow(leftSection, Priority.ALWAYS)
         HBox.setHgrow(rightSection, Priority.ALWAYS)
         def tb = new ToolBar(orientation: Orientation.HORIZONTAL)
-        tb.setPadding(new Insets(5, spacing, 5, spacing))
+        tb.setPadding(new Insets(spacing))
         tb.getItems().addAll(leftSection, rightSection)
         return tb
     }

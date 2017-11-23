@@ -1,4 +1,4 @@
-package de.ostfale.beezle.entity.repo
+package de.ostfale.beezle.boundary.repo
 
 import groovy.util.logging.Slf4j
 import javafx.scene.control.TreeItem
@@ -6,27 +6,17 @@ import javafx.scene.image.Image
 import javafx.scene.image.ImageView
 
 @Slf4j
-class TreeItemWithId<T> extends TreeItem<T> {
+class RepoTreeItem<Repo> extends TreeItem<Repo> {
 
-    final String nodeId
     NodeType nodeType
 
-    TreeItemWithId(T var1) {
+    RepoTreeItem(Repo var1) {
         super(var1)
         this.nodeType = NodeType.NODE
-        nodeId = ''
     }
 
-    TreeItemWithId(T var1, NodeType aNodeType) {
+    RepoTreeItem(Repo var1, NodeType aNodeType) {
         super(var1)
-        this.nodeType = aNodeType
-        setAppropriateIcon(aNodeType)
-        nodeId = ''
-    }
-
-    TreeItemWithId(T var1, final NodeType aNodeType, String nodeId) {
-        super(var1)
-        this.nodeId = nodeId
         this.nodeType = aNodeType
         setAppropriateIcon(aNodeType)
     }

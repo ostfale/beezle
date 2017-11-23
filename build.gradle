@@ -3,10 +3,28 @@ version '0.0.1'
 
 apply plugin: 'groovy'
 apply plugin: 'java'
+apply plugin: 'eu.appsatori.fatjar'
+apply plugin: 'org.kordamp.gradle.stats'
 
 project.ext.set('javafxHome', System.env['JAVAFX_HOME'])
 
 sourceCompatibility = 1.8
+
+buildscript{
+    repositories{
+        jcenter()
+    }
+    dependencies{
+        classpath 'eu.appsatori:gradle-fatjar-plugin:0.3'
+        classpath 'org.kordamp.gradle:stats-gradle-plugin:0.2.0'
+    }
+}
+
+fatJar{
+    manifest {
+        attributes 'Main-Class': 'de.ostfale.beezle.BeezleMain'
+    }
+}
 
 repositories {
     mavenCentral()
