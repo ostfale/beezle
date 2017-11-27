@@ -1,5 +1,8 @@
 package de.ostfale.beezle.boundary.repo
 
+import de.ostfale.beezle.control.PropertyService
+import de.ostfale.beezle.control.UserProperties
+import de.ostfale.beezle.control.repo.CloneRepoService
 import de.ostfale.beezle.entity.repo.Repo
 import de.ostfale.beezle.entity.repo.RepoStatus
 import javafx.event.ActionEvent
@@ -21,11 +24,18 @@ class RepoTreeCellImpl extends TreeCell<Repo> {
             setText(getString())
             setGraphic(getTreeItem().getGraphic())
             Repo selectedRepoNode = getTreeItem().getValue() as Repo
-            if (selectedRepoNode.getRepoStatus() != RepoStatus.LOCAL && selectedRepoNode.getRepoStatus() != RepoStatus.ROOT) {
-                ContextMenu ct = new ContextMenu()
-                ct.getItems().add(cloneRepository())
-                setContextMenu(ct)
-                setTooltip(new Tooltip("Clone remote repository into local workspace..."))
+            if (selectedRepoNode.getRepoStatus() != RepoStatus.ROOT) {
+                if (selectedRepoNode.getRepoStatus() != RepoStatus.LOCAL) {
+                    ContextMenu ct = new ContextMenu()
+                    ct.getItems().add(cloneRepository())
+                    setContextMenu(ct)
+                    setTooltip(new Tooltip("Clone remote repository into local workspace..."))
+                } else if (selectedRepoNode.getRepoStatus() != RepoStatus.REMOTE) {
+                    ContextMenu ct = new ContextMenu()
+                    ct.getItems().add(pullFromRepo())
+                    setContextMenu(ct)
+                    setTooltip(new Tooltip("Pull changes from repository..."))
+                }
             }
         }
     }
@@ -35,10 +45,23 @@ class RepoTreeCellImpl extends TreeCell<Repo> {
         cloneRepo.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             void handle(ActionEvent event) {
-                println 'not yet implemented...'
+                String localRepoPath = PropertyService.instance.getProperty(UserProperties.REPO_PATH.key)
+                CloneRepoService repoService = new CloneRepoService()
+                repoService.cloneRepository(localRepoPath, 'arena')
             }
         })
         return cloneRepo
+    }
+
+    private static MenuItem pullFromRepo() {
+        MenuItem menuItem = new MenuItem(("Pull from repo"))
+        menuItem.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            void handle(ActionEvent event) {
+                println "pull from repo...."
+            }
+        })
+        return menuItem
     }
 
     private String getString() {
