@@ -40,25 +40,25 @@ class RepoTreeCellImpl extends TreeCell<Repo> {
         }
     }
 
-    private static MenuItem cloneRepository() {
+    private MenuItem cloneRepository() {
         MenuItem cloneRepo = new MenuItem("Clone repository")
         cloneRepo.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             void handle(ActionEvent event) {
                 String localRepoPath = PropertyService.instance.getProperty(UserProperties.REPO_PATH.key)
                 CloneRepoService repoService = new CloneRepoService()
-                repoService.cloneRepository(localRepoPath, 'arena')
+                repoService.cloneRepository(localRepoPath, getItem().getRepoName())
             }
         })
         return cloneRepo
     }
 
-    private static MenuItem pullFromRepo() {
+    private MenuItem pullFromRepo() {
         MenuItem menuItem = new MenuItem(("Pull from repo"))
         menuItem.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             void handle(ActionEvent event) {
-                println "pull from repo...."
+                println "pull from repo ${getItem().getRepoName()}"
             }
         })
         return menuItem

@@ -11,6 +11,7 @@ import org.eclipse.jgit.api.TransportConfigCallback
 import org.eclipse.jgit.transport.*
 import org.eclipse.jgit.util.FS
 
+import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
 
@@ -35,10 +36,15 @@ class CloneRepoService {
             }
         }
 
-        Path repoPath = Paths.get(localRepoPath + File.separator + repoName)
+        Optional<File> repoDirectory = createLocalTargetRepository(localRepoPath, repoName)
+        if (!repoDirectory.isPresent()) {
+            log.error("Directory for repository could not be created: \n\t repo path: ${localRepoPath} \n\trepo name ${repoName}")
+            return
+        }
+
         final String URI = REMOTE_URI + repoName
-        final File REPO = repoPath.toFile()
-        log.info("Clone repository : \n\t URI: ${URI} \n\t Repo:  ${REPO}")
+        final File REPO = repoDirectory.get()
+        log.info("Start cloning repository : \n\t URI: ${URI} \n\t Repo:  ${REPO}")
         CloneCommand cloneCommand = Git.cloneRepository()
         cloneCommand.setURI(URI)
         cloneCommand.setDirectory(REPO)
@@ -52,22 +58,20 @@ class CloneRepoService {
 
         Git result = cloneCommand.call()
         result.close()
-
-        /*  Path repoPath = Paths.get(localRepoPath + File.separator + repoName)
-          if (Files.exists(repoPath)) {
-              final String URI = REMOTE_URL + repoName
-              final File REPO = repoPath.toFile()
-              Git result = Git.cloneRepository()
-                      .setURI(URI)
-                      .setDirectory(REPO)
-                      .call()
-              result.close()
-          }*/
-        log.error("Local repository (${localRepoPath}) could not be found!")
+        log.trace("Finished cloning repository to local drive...")
     }
 
-     File createLocalTargetRepository(String localRepoPath, String repoName) {
 
+    static Optional<File> createLocalTargetRepository(String localRepoPath, String repoName) {
+        if (Files.exists(Paths.get(localRepoPath))) {
+            String targetPathString = localRepoPath + File.separator + repoName
+            Path targetPath = Paths.get(targetPathString)
+            if (!Files.exists(targetPath)) {
+                return Optional.of(Files.createDirectory(targetPath).toFile())
+            } else if (targetPath.toFile().listFiles().size() == 0) {
+                return Optional.of(targetPath.toFile())
+            }
+        }
+        return Optional.empty()
     }
-
 }

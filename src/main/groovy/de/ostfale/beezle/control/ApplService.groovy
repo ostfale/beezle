@@ -4,7 +4,6 @@ import de.ostfale.beezle.AppConfig
 import groovy.util.logging.Slf4j
 
 import java.nio.file.Files
-import java.nio.file.LinkOption
 import java.nio.file.Path
 import java.nio.file.Paths
 
@@ -35,19 +34,5 @@ class ApplService {
         propertyFile.getParentFile().mkdirs()
         propertyFile << '# user defined properties\n'
         return propertyFile
-    }
-
-    static Optional<File> createDirectory(String dirPath, String dirName) {
-        log.trace("Create new directy ${dirName} for the given path ${dirPath}")
-        Path rootPath = Paths.get(dirPath)
-        if (Files.exists(rootPath, LinkOption.NOFOLLOW_LINKS)) {
-            File newDirecty = new File(dirPath + File.separator + dirName)
-            if (newDirecty.getParentFile().mkdirs()) {
-                return Optional.of(newDirecty)
-            }
-            log.error("Directory ${newDirecty.getAbsolutePath()} could not be created or does already exist...")
-        }
-        log.error("Root directory ${dirPath} does not exist...")
-        return Optional.empty()
     }
 }
