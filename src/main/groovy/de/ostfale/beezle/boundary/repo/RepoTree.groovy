@@ -15,6 +15,10 @@ class RepoTree {
 
     static TreeView<Repo> treeView
 
+    static void refresh() {
+        treeView.setRoot(createTreeNodes())
+    }
+
     static TreeView createTreeView() {
         treeView = new TreeView<>(createTreeNodes())
         treeView.styleClass << 'tree'

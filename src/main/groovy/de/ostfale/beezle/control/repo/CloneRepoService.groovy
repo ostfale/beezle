@@ -8,6 +8,7 @@ import groovy.util.logging.Slf4j
 import org.eclipse.jgit.api.CloneCommand
 import org.eclipse.jgit.api.Git
 import org.eclipse.jgit.api.TransportConfigCallback
+import org.eclipse.jgit.lib.TextProgressMonitor
 import org.eclipse.jgit.transport.*
 import org.eclipse.jgit.util.FS
 
@@ -46,6 +47,7 @@ class CloneRepoService {
         final File REPO = repoDirectory.get()
         log.info("Start cloning repository : \n\t URI: ${URI} \n\t Repo:  ${REPO}")
         CloneCommand cloneCommand = Git.cloneRepository()
+        cloneCommand.setProgressMonitor(new TextProgressMonitor(new PrintWriter(System.out)))
         cloneCommand.setURI(URI)
         cloneCommand.setDirectory(REPO)
         cloneCommand.setTransportConfigCallback(new TransportConfigCallback() {

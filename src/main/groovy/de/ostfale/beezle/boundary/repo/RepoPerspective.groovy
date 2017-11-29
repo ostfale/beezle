@@ -19,7 +19,7 @@ class RepoPerspective implements IPerspective {
 
     @Override
     void updatePerspective() {
-
+        RepoTree.refresh()
     }
 
     @Override

@@ -28,6 +28,16 @@ class ApplService {
         return Optional.empty()
     }
 
+    boolean deleteDirectory(File directoryToBeDeleted) {
+        File[] allFiles = directoryToBeDeleted.listFiles()
+        if (allFiles) {
+            for (File file : allFiles) {
+                deleteDirectory(file)
+            }
+        }
+        return directoryToBeDeleted.delete()
+    }
+
     private static File createPropertyFile(String targetPath) {
         log.trace("Create new property file: $targetPath")
         File propertyFile = new File(targetPath)

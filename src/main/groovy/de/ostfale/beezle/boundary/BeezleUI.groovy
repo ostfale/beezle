@@ -70,9 +70,10 @@ class BeezleUI {
     def createToolBar() {
         final int spacing = 5
         def exitButton = new Button(font: ResourceService.FA14, text: ResourceService.ICON_EXIT, onAction: exitAction, id: 'exitBtn', tooltip: new Tooltip('Exit application'))
+        def refreshButton = new Button(font: ResourceService.FA14, text: ResourceService.ICON_REFRESH, onAction: refreshAction, id: 'refreshBtn', tooltip: new Tooltip('Refresh views'))
         def aboutButton = new Button(font: ResourceService.FA14, text: ResourceService.ICON_INFO, onAction: aboutAction, id: 'aboutBtn', tooltip: new Tooltip('Show Info'))
 
-        final HBox leftSection = new HBox(exitButton, new Separator(orientation: Orientation.VERTICAL))
+        final HBox leftSection = new HBox(exitButton, new Separator(orientation: Orientation.VERTICAL), refreshButton)
         final HBox rightSection = new HBox(aboutButton, new Separator(orientation: Orientation.VERTICAL))
         leftSection.setAlignment(Pos.CENTER_LEFT)
         leftSection.setSpacing(spacing)
@@ -114,6 +115,7 @@ class BeezleUI {
     }
 
     def exitAction = { sceneGraphBuilder.primaryStage.close() }
+    def refreshAction = { repoPerspective.updatePerspective() }
 
     def activateRepoPerspective = {
         println "show repo perspective..."
