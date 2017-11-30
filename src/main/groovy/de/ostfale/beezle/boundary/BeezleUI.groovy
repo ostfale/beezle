@@ -2,7 +2,9 @@ package de.ostfale.beezle.boundary
 
 import de.ostfale.beezle.AppConfig
 import de.ostfale.beezle.boundary.repo.RepoPerspective
+import de.ostfale.beezle.control.ApplService
 import de.ostfale.beezle.control.ResourceService
+import de.ostfale.beezle.control.SetupDialog
 import groovy.util.logging.Slf4j
 import groovyx.javafx.GroovyFX
 import groovyx.javafx.SceneGraphBuilder
@@ -24,6 +26,9 @@ class BeezleUI {
 
     private DefaultStatusBar statusBar
 
+    // dialogs
+    SetupDialog setupDialog
+
     // perspectives
     RepoPerspective repoPerspective
 
@@ -33,7 +38,13 @@ class BeezleUI {
             initPerspective(builder)
             layoutFrame(builder)
             BeezleStyle.style(builder)
-            builder.primaryStage.show()
+            if (ApplService.foundApplicationDirectory()) {
+                builder.primaryStage.show()
+
+            } else {
+                setupDialog = new SetupDialog(builder)
+                setupDialog.dlg.show()
+            }
         }
     }
 

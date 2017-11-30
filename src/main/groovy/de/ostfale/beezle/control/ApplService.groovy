@@ -28,6 +28,10 @@ class ApplService {
         return Optional.empty()
     }
 
+    static boolean foundApplicationDirectory() {
+        return false
+    }
+
     boolean deleteDirectory(File directoryToBeDeleted) {
         File[] allFiles = directoryToBeDeleted.listFiles()
         if (allFiles) {

@@ -12,6 +12,10 @@
     -fx-alignment: top-center;
 }
 
+.tree {
+    -fx-pref-width: 350px;
+}
+
 #exitBtn {
     -fx-background-color: brown;
 }
@@ -21,6 +25,3 @@
     -fx-background-color: rgb(65, 149, 202);
 }
 
-.tree {
-    -fx-pref-width: 350px;
-}
