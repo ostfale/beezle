@@ -35,15 +35,14 @@ class BeezleUI {
     void startUI() {
         GroovyFX.start { app ->
             SceneGraphBuilder builder = delegate as SceneGraphBuilder
-            initPerspective(builder)
-            layoutFrame(builder)
-            BeezleStyle.style(builder)
-            if (ApplService.foundApplicationDirectory()) {
-                builder.primaryStage.show()
-
-            } else {
+            if (!ApplService.foundApplicationDirectory()) {
                 setupDialog = new SetupDialog(builder)
                 setupDialog.dlg.show()
+            } else {
+                initPerspective(builder)
+                layoutFrame(builder)
+                BeezleStyle.style(builder)
+                builder.primaryStage.show()
             }
         }
     }

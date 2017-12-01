@@ -29,7 +29,7 @@ class ApplService {
     }
 
     static boolean foundApplicationDirectory() {
-        return false
+        return Files.exists(Paths.get(AppConfig.PROPERTY_DEFAULT))
     }
 
     boolean deleteDirectory(File directoryToBeDeleted) {
