@@ -1,7 +1,5 @@
 package de.ostfale.beezle;
 
-import de.ostfale.beezle.control.PropertyService;
-import de.ostfale.beezle.control.UserProperties;
 import de.ostfale.beezle.control.repo.CloneRepoService;
 
 import java.util.concurrent.ExecutorService;
@@ -12,9 +10,8 @@ public class CloneTask {
 
     private ExecutorService executorService = Executors.newSingleThreadExecutor();
 
-    public Future<Boolean> cloneRepository(String repoName) {
+    public Future<Boolean> cloneRepository(String repoName, String localRepoPath) {
         return executorService.submit(() -> {
-            String localRepoPath = PropertyService.instance.getProperty(UserProperties.REPO_PATH.getKey());
             CloneRepoService repoService = new CloneRepoService();
             repoService.cloneRepository(localRepoPath, repoName);
             return true;

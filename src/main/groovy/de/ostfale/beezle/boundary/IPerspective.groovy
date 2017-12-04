@@ -5,6 +5,8 @@ import javafx.scene.layout.Pane
 
 interface IPerspective {
 
+    String getName()
+
     void updatePerspective()
 
     Pane getLeftSideView()

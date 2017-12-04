@@ -2,6 +2,7 @@ package de.ostfale.beezle.boundary
 
 import de.ostfale.beezle.AppConfig
 import de.ostfale.beezle.boundary.repo.RepoPerspective
+import de.ostfale.beezle.boundary.soap.SoapPerspective
 import de.ostfale.beezle.control.ApplService
 import de.ostfale.beezle.control.ResourceService
 import de.ostfale.beezle.control.SetupDialog
@@ -31,6 +32,7 @@ class BeezleUI {
 
     // perspectives
     RepoPerspective repoPerspective
+    SoapPerspective soapPerspective
 
     void startUI() {
         GroovyFX.start { app ->
@@ -65,7 +67,12 @@ class BeezleUI {
                     right(margin: 1) {
                         toolBar(orientation: VERTICAL) {
                             new ResourceService().with {
-                                button(font: FA16, text: ICON_GITLAB, tooltip: new Tooltip("Repository Perspective"), onAction: activateRepoPerspective)
+                                button(font: FA16, text: ICON_GITLAB, tooltip: new Tooltip("Repository Perspective"), onAction: {
+                                    setPerspective(repoPerspective)
+                                })
+                                button(font: FA16, text: ICON_PENCIL, tooltip: new Tooltip("SOAP Perspective"), onAction: {
+                                    setPerspective(soapPerspective)
+                                })
                             }
                         }
                     }
@@ -119,20 +126,26 @@ class BeezleUI {
     def aboutAction = {
         Alert alert = new Alert(Alert.AlertType.INFORMATION)
         alert.setTitle("About ${AppConfig.APP_NAME}")
-        alert.setHeaderText("${AppConfig.APP_NAME} v${AppConfig.APP_VERSION}");
-        alert.setContentText("Contact: info@uwe-sauerbrei.de");
-        alert.showAndWait();
+        alert.setHeaderText("${AppConfig.APP_NAME} v${AppConfig.APP_VERSION}")
+        alert.setContentText("Contact: info@uwe-sauerbrei.de")
+        alert.showAndWait()
     }
 
     def exitAction = { sceneGraphBuilder.primaryStage.close() }
     def refreshAction = { repoPerspective.updatePerspective() }
 
-    def activateRepoPerspective = {
-        println "show repo perspective..."
+    def setPerspective = { IPerspective perspective ->
+        if (bp) {
+            log.trace("Switch to ${perspective.getName()}")
+            bp.setLeft(perspective.getLeftSideView())
+            bp.setCenter(perspective.getCenterView())
+           statusBar.updateCustomLabels(perspective.getStatusBarElements())
+        }
     }
 
     private initPerspective(SceneGraphBuilder sceneGraphBuilder1) {
         this.statusBar = new DefaultStatusBar()
         this.repoPerspective = new RepoPerspective(sceneGraphBuilder1)
+        this.soapPerspective = new SoapPerspective(sceneGraphBuilder1)
     }
 }

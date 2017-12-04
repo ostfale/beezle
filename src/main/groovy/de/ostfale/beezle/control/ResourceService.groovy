@@ -16,5 +16,6 @@ class ResourceService {
     static final String ICON_FOLDER = '\uf07b'
     static final String ICON_GITLAB = '\uf296'
     static final String ICON_INFO = '\uf129'
+    static final String ICON_PENCIL = '\uf044'
     static final String ICON_REFRESH = '\uf021'
 }

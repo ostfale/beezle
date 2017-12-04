@@ -35,6 +35,7 @@ dependencies {
     compile 'org.codehaus.groovy:groovy-all:2.4.12'
     compile 'org.groovyfx:groovyfx:8.0.0'
     compile 'org.controlsfx:controlsfx:8.40.14'
+    compile 'org.fxmisc.richtext:richtextfx:0.8.1'
     compile 'org.eclipse.jgit:org.eclipse.jgit:4.9.0.201710071750-r'
     compile 'com.jcabi:jcabi-ssh:1.6'
     compile 'org.slf4j:slf4j-api:1.7.+'

@@ -5,16 +5,23 @@ import groovy.util.logging.Slf4j
 import groovyx.javafx.SceneGraphBuilder
 import javafx.collections.FXCollections
 import javafx.scene.Node
+import javafx.scene.control.Label
 import javafx.scene.layout.GridPane
 import javafx.scene.layout.Pane
 
 @Slf4j
 class RepoPerspective implements IPerspective {
 
+    final static String NAME = "Repository Perspective"
     final SceneGraphBuilder sgb
 
     RepoPerspective(SceneGraphBuilder sgb) {
         this.sgb = sgb
+    }
+
+    @Override
+    String getName() {
+        return NAME
     }
 
     @Override
@@ -38,6 +45,7 @@ class RepoPerspective implements IPerspective {
 
     @Override
     Collection<Node> getStatusBarElements() {
-        return FXCollections.emptyObservableList()
+        Label name = new Label(NAME)
+        return FXCollections.observableArrayList(name)
     }
 }
