@@ -20,8 +20,27 @@
     -fx-background-color: brown;
 }
 
+#fLabel {
+    -fx-font-family: "monospace";
+    -fx-font-size: 12pt;
+    -fx-padding: 10px;
+}
+
+#fContent {
+    -fx-font-family: "monospace";
+    -fx-font-size: 12pt;
+}
+
 .dialog-pane {
     -fx-pref-width: 800px;
     -fx-background-color: rgb(65, 149, 202);
 }
 
+.text-area .content {
+    -fx-padding: 5;
+}
+
+.text-area > .scroll-pane {
+    -fx-hbar-policy: as_needed;
+    -fx-vbar-policy: as_needed;
+}

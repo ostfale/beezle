@@ -2,7 +2,7 @@ package de.ostfale.beezle.entity.repo
 
 class Repo {
 
-    String repoName
+    String repoName, repoPath
     RepoStatus repoStatus = RepoStatus.ROOT
 
     Repo(String repoName, RepoStatus status) {
@@ -14,6 +14,21 @@ class Repo {
     @Override
     String toString() {
         return repoName
+    }
+
+    String getReadme() {
+        String readme = ""
+        if (repoPath) {
+            File repoFile = new File(repoPath)
+            if (repoFile.exists()) {
+                repoFile.eachFile { File file ->
+                    if (file.getName().toLowerCase().startsWith("readme")) {
+                        readme = file.text
+                    }
+                }
+            }
+        }
+        return readme
     }
 
     boolean equals(o) {

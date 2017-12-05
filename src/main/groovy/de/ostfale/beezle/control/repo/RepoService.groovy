@@ -3,13 +3,13 @@ package de.ostfale.beezle.control.repo
 import com.jcabi.ssh.Shell
 import com.jcabi.ssh.Ssh
 import de.ostfale.beezle.AppConfig
+import de.ostfale.beezle.boundary.repo.NodeType
+import de.ostfale.beezle.boundary.repo.RepoTreeItem
 import de.ostfale.beezle.control.ApplService
 import de.ostfale.beezle.control.PropertyService
 import de.ostfale.beezle.control.UserProperties
-import de.ostfale.beezle.boundary.repo.NodeType
 import de.ostfale.beezle.entity.repo.Repo
 import de.ostfale.beezle.entity.repo.RepoStatus
-import de.ostfale.beezle.boundary.repo.RepoTreeItem
 import groovy.util.logging.Slf4j
 import javafx.scene.control.TreeItem
 
@@ -62,6 +62,7 @@ class RepoService {
             if (Files.exists(filePath, LinkOption.NOFOLLOW_LINKS)) {
                 filePath.eachDir { Path foundDir ->
                     Repo repo = new Repo(foundDir.getFileName().toString(), RepoStatus.LOCAL)
+                    repo.setRepoPath(foundDir.toFile().getAbsolutePath())
                     existingRepos.add(repo)
                 }
             }

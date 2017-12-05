@@ -79,6 +79,9 @@ class BeezleUI {
                     bottom(margin: 1) {
                         node(statusBar.getDefaultStatusBar())
                     }
+                    center(margin: [1, 0, 5, 1]) {
+                        repoPerspective.getCenterView()
+                    }
                 }
             }
         }
@@ -139,7 +142,7 @@ class BeezleUI {
             log.trace("Switch to ${perspective.getName()}")
             bp.setLeft(perspective.getLeftSideView())
             bp.setCenter(perspective.getCenterView())
-           statusBar.updateCustomLabels(perspective.getStatusBarElements())
+            statusBar.updateCustomLabels(perspective.getStatusBarElements())
         }
     }
 

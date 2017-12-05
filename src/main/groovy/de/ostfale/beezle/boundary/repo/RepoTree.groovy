@@ -4,7 +4,10 @@ import de.ostfale.beezle.control.repo.RepoService
 import de.ostfale.beezle.entity.repo.Repo
 import de.ostfale.beezle.entity.repo.RepoStatus
 import groovy.util.logging.Slf4j
+import javafx.beans.value.ChangeListener
+import javafx.beans.value.ObservableValue
 import javafx.scene.control.TreeCell
+import javafx.scene.control.TreeItem
 import javafx.scene.control.TreeView
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
@@ -14,16 +17,24 @@ import javafx.util.Callback
 class RepoTree {
 
     static TreeView<Repo> treeView
+    static RepoPerspective repoPerspective
 
     static void refresh() {
         treeView.setRoot(createTreeNodes())
     }
 
-    static TreeView createTreeView() {
+    static TreeView createTreeView(RepoPerspective repoPerspective) {
+        this.repoPerspective = repoPerspective
         treeView = new TreeView<>(createTreeNodes())
         treeView.styleClass << 'tree'
         treeView.setShowRoot(true)
         treeView.setEditable(false)
+        treeView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<TreeItem<Repo>>() {
+            @Override
+            void changed(ObservableValue<? extends TreeItem<Repo>> observable, TreeItem<Repo> oldValue, TreeItem<Repo> newValue) {
+                repoPerspective.updateFileInfo(newValue?.getValue())
+            }
+        })
         setCellFactory(treeView)
         return treeView
     }
