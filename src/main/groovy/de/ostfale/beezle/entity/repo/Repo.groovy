@@ -1,5 +1,7 @@
 package de.ostfale.beezle.entity.repo
 
+import de.ostfale.beezle.control.repo.GitService
+
 class Repo {
 
     String repoName, repoPath
@@ -13,7 +15,11 @@ class Repo {
 
     @Override
     String toString() {
-        return repoName
+        int changedFiles = getNoOfChangedFiles()
+        if (changedFiles == 0) {
+            return repoName
+        }
+        return "($changedFiles} $repoName"
     }
 
     String getReadme() {
@@ -29,6 +35,13 @@ class Repo {
             }
         }
         return readme
+    }
+
+    int getNoOfChangedFiles() {
+        if (repoPath) {
+            return GitService.getChangedFiles(new File(repoPath))
+        }
+        return 0
     }
 
     boolean equals(o) {
