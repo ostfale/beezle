@@ -1,8 +1,12 @@
 package de.ostfale.beezle.entity.repo
 
 import de.ostfale.beezle.control.repo.GitService
+import javafx.beans.property.SimpleStringProperty
+import javafx.beans.property.StringProperty
 
 class Repo {
+
+    StringProperty displayName = new SimpleStringProperty(this, "displayName", repoName)
 
     String repoName, repoPath
     RepoStatus repoStatus = RepoStatus.ROOT
@@ -12,6 +16,13 @@ class Repo {
         this.repoStatus = status
     }
 
+    final StringProperty displayNameProperty() {
+        return displayName
+    }
+
+    final String getDisplayName() {
+        return displayName.get()
+    }
 
     @Override
     String toString() {

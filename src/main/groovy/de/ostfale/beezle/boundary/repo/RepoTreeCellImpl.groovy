@@ -1,6 +1,7 @@
 package de.ostfale.beezle.boundary.repo
 
 import de.ostfale.beezle.CloneTask
+import de.ostfale.beezle.control.ApplService
 import de.ostfale.beezle.control.PropertyService
 import de.ostfale.beezle.control.UserProperties
 import de.ostfale.beezle.entity.repo.Repo
@@ -8,9 +9,7 @@ import de.ostfale.beezle.entity.repo.RepoStatus
 import groovy.util.logging.Slf4j
 import javafx.event.ActionEvent
 import javafx.event.EventHandler
-import javafx.scene.control.ContextMenu
-import javafx.scene.control.MenuItem
-import javafx.scene.control.TreeCell
+import javafx.scene.control.*
 
 import java.util.concurrent.Future
 
@@ -71,10 +70,15 @@ class RepoTreeCellImpl extends TreeCell<Repo> {
         menuItem.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             void handle(ActionEvent event) {
-                String repoName = getItem().getRepoName()
-                log.info("Remove repository ${repoName}")
-//                ApplService applService = new ApplService()
-//                applService.deleteDirectory()
+                Repo repo = getItem()
+                if (!ApplService.deleteDirectory(new File(repo.getRepoPath()))) {
+                    log.error("Repository could not be deleted : ${repo.repoPath}")
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "Repository ${repo.repoPath} could not be deleted!", ButtonType.OK)
+                    alert.setTitle("Error")
+                    alert.setHeaderText("Error message")
+                    alert.showAndWait()
+                }
+                RepoTree.refresh()
             }
         })
         return menuItem

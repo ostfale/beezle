@@ -2,6 +2,8 @@ package de.ostfale.beezle.control
 
 import de.ostfale.beezle.AppConfig
 import groovy.util.logging.Slf4j
+import javafx.scene.control.Alert
+import javafx.scene.control.ButtonType
 
 import java.nio.file.Files
 import java.nio.file.Path
@@ -32,14 +34,18 @@ class ApplService {
         return Files.exists(Paths.get(AppConfig.PROPERTY_DEFAULT))
     }
 
-    boolean deleteDirectory(File directoryToBeDeleted) {
-        File[] allFiles = directoryToBeDeleted.listFiles()
-        if (allFiles) {
-            for (File file : allFiles) {
-                deleteDirectory(file)
+    static boolean deleteDirectory(File directoryToBeDeleted) {
+        if (directoryToBeDeleted.exists()) {
+            log.trace("Delete directory : ${directoryToBeDeleted.getAbsolutePath()}")
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want delete local repository:  ${directoryToBeDeleted.getAbsolutePath()}?")
+            alert.setTitle("Confirmation")
+            alert.setHeaderText("Repo deletion confirmation")
+            Optional<ButtonType> result = alert.showAndWait()
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                return directoryToBeDeleted.deleteDir()
             }
         }
-        return directoryToBeDeleted.delete()
+        return false
     }
 
     private static File createPropertyFile(String targetPath) {
