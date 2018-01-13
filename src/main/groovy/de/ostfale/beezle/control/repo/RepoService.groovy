@@ -71,12 +71,11 @@ class RepoService {
         return existingRepos
     }
 
-    private static List<Repo> readRemoteRepos(Optional<File> propFile = ApplService.getPropertyFile()) {
+    private static List<Repo> readRemoteRepos() {
         List<Repo> remoteRepos = new ArrayList<>()
-        if (propFile.isPresent()) {
-            String host = PropertyService.instance.getProperty(UserProperties.BTU_HOST.key, propFile.get())
+        if (GitService.getSSHPassword().isPresent()) {
             String key = new File("${AppConfig.USER_PROFILE + File.separator}.ssh/id_rsa").text
-            Shell shell = new Ssh(host, AppConfig.SSH_PORT, AppConfig.SSH_USER, key, "mastermind")
+            Shell shell = new Ssh(AppConfig.REPO_SERVER, AppConfig.SSH_PORT, AppConfig.SSH_USER, key, GitService.getSSHPassword().get())
             def result = new Shell.Plain(shell).exec("info")
             result.eachLine { String line ->
                 if (line.trim().startsWith('R')) {

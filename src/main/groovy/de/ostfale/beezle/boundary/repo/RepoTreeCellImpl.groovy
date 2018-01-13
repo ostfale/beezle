@@ -1,9 +1,9 @@
 package de.ostfale.beezle.boundary.repo
 
-import de.ostfale.beezle.CloneTask
 import de.ostfale.beezle.control.ApplService
 import de.ostfale.beezle.control.PropertyService
 import de.ostfale.beezle.control.UserProperties
+import de.ostfale.beezle.control.repo.CloneTask
 import de.ostfale.beezle.entity.repo.Repo
 import de.ostfale.beezle.entity.repo.RepoStatus
 import groovy.util.logging.Slf4j
@@ -48,7 +48,7 @@ class RepoTreeCellImpl extends TreeCell<Repo> {
             @Override
             void handle(ActionEvent event) {
                 String repoName = getItem().getRepoName()
-                Future<Boolean> future = new CloneTask().cloneRepository(repoName, PropertyService.instance.getProperty(UserProperties.REPO_PATH.getKey()))
+                Future future = new CloneTask().cloneProjectFromRepository(repoName, PropertyService.instance.getProperty(UserProperties.REPO_PATH.getKey()))
                 while (!future.isDone()) {
                     println "Cloning repository ${repoName}"
                     Thread.sleep(300)
@@ -96,6 +96,6 @@ class RepoTreeCellImpl extends TreeCell<Repo> {
     }
 
     private String getString() {
-        return getItem() == null ? '' : getItem().toString();
+        return getItem() == null ? '' : getItem().toString()
     }
 }

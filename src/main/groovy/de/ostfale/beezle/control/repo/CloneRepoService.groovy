@@ -30,10 +30,14 @@ class CloneRepoService {
 
             @Override
             protected JSch createDefaultJSch(FS fs) throws JSchException {
-                JSch defaultJSch = super.createDefaultJSch(fs)
-                String pkPath = new File("${AppConfig.USER_PROFILE + File.separator}.ssh/id_rsa").getAbsolutePath()
-                defaultJSch.addIdentity(pkPath, "mastermind")
-                return defaultJSch
+                if (GitService.getSSHPassword().ifPresent()) {
+                    JSch defaultJSch = super.createDefaultJSch(fs)
+                    String pkPath = new File("${AppConfig.USER_PROFILE + File.separator}.ssh/id_rsa").getAbsolutePath()
+                    defaultJSch.addIdentity(pkPath, GitService.getSSHPassword().get())
+                    return defaultJSch
+                }
+                log.error("Password for SSH key not found!")
+                return null;
             }
         }
 

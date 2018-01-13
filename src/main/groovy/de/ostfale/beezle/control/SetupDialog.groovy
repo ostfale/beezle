@@ -1,6 +1,7 @@
 package de.ostfale.beezle.control
 
 import de.ostfale.beezle.AppConfig
+import de.ostfale.beezle.control.repo.GitService
 import groovy.util.logging.Slf4j
 import groovyx.javafx.SceneGraphBuilder
 import javafx.beans.value.ChangeListener
@@ -164,8 +165,10 @@ class SetupDialog implements MessageDialog {
     private saveProperties() {
         String repoDir = tfRepoDir.getText().trim()
         String keyFileDir = tfKeyFileDir.getText().trim()
+        String password = tfPWUnmasked.getText().trim()
         PropertyService.instance.setProperty(UserProperties.REPO_PATH.key, repoDir)
         PropertyService.instance.setProperty(UserProperties.SSH_KEY_LOCATION.key, keyFileDir)
+        GitService.writePasswordToFile(password)
         log.info("Saved intial parameter: \n\t Repo-dir: $repoDir \n\tSSH key file: $keyFileDir")
     }
 
